@@ -3,6 +3,25 @@
    Mobile-first. Todos os valores de design vêm das variáveis abaixo.
    ========================================================================== */
 
+/* Fallbacks com métricas próximas das fontes da marca: evitam saltos de layout enquanto as fontes carregam. */
+@font-face {
+  font-family: "Playfair Display Fallback";
+  src: local("Times New Roman"), local("Liberation Serif");
+  ascent-override: 97.25%;
+  descent-override: 22.56%;
+  line-gap-override: 0%;
+  size-adjust: 111.26%;
+}
+
+@font-face {
+  font-family: "Inter Fallback";
+  src: local("Arial"), local("Liberation Sans");
+  ascent-override: 90.49%;
+  descent-override: 22.56%;
+  line-gap-override: 0%;
+  size-adjust: 107.06%;
+}
+
 :root {
   /* Cores */
   --color-bg: #070b16;
@@ -20,8 +39,8 @@
   --color-unavailable: #9195a6;
 
   /* Tipografia */
-  --font-serif: "Playfair Display", Georgia, "Times New Roman", serif;
-  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-serif: "Playfair Display", "Playfair Display Fallback", Georgia, "Times New Roman", serif;
+  --font-sans: "Inter", "Inter Fallback", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   --fs-xs: 0.75rem;
   --fs-sm: 0.875rem;
   --fs-base: 1rem;
@@ -375,9 +394,12 @@ button {
   align-items: center;
 }
 
+/* Altura fixa: trocar a logo pelo monograma (ou o contrário) não desloca a página. */
 .hero__brand {
   display: flex;
+  align-items: center;
   justify-content: center;
+  height: 88px;
   margin-bottom: var(--space-5);
 }
 
@@ -503,75 +525,6 @@ button {
 }
 
 /* --------------------------------------------------------------------------
-   Filtros
-   -------------------------------------------------------------------------- */
-
-.filters {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: var(--space-2);
-  margin-bottom: var(--space-3);
-}
-
-.filter {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  min-height: var(--control-height-sm);
-  padding: 0 var(--space-4);
-  background: transparent;
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-pill);
-  color: var(--color-text-muted);
-  font-size: var(--fs-sm);
-  font-weight: 500;
-  cursor: pointer;
-  transition:
-    background-color var(--duration) var(--ease),
-    border-color var(--duration) var(--ease),
-    color var(--duration) var(--ease);
-  -webkit-tap-highlight-color: transparent;
-}
-
-.filter:hover {
-  border-color: var(--color-line-strong);
-  color: var(--color-text);
-}
-
-.filter[aria-pressed="true"] {
-  background-color: var(--color-gold);
-  border-color: var(--color-gold);
-  color: var(--color-bg);
-}
-
-.filter__count {
-  font-size: var(--fs-xs);
-  font-variant-numeric: tabular-nums;
-  opacity: 0.8;
-}
-
-.filter__count:empty {
-  display: none;
-}
-
-.filters__hint {
-  max-width: 520px;
-  min-height: 1.5em;
-  margin: 0 auto var(--space-5);
-  color: var(--color-text-subtle);
-  font-size: var(--fs-sm);
-  text-align: center;
-}
-
-@media (max-width: 399px) {
-  .filter {
-    gap: var(--space-1);
-    padding: 0 var(--space-3);
-  }
-}
-
-/* --------------------------------------------------------------------------
    Grade de produtos e cards
    -------------------------------------------------------------------------- */
 
@@ -604,6 +557,7 @@ button {
 }
 
 .card {
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -611,13 +565,15 @@ button {
   border: 1px solid var(--color-line);
   border-radius: var(--radius);
   overflow: hidden;
+  cursor: pointer;
   transition:
     border-color var(--duration) var(--ease),
     box-shadow var(--duration) var(--ease),
     transform var(--duration) var(--ease);
 }
 
-.card:hover {
+.card:hover,
+.card:has(.card__details:focus-visible) {
   border-color: var(--color-line-strong);
   box-shadow: var(--shadow-md);
   transform: translateY(-2px);
@@ -630,11 +586,15 @@ button {
   overflow: hidden;
 }
 
-.card__media img {
+.card__media img,
+.product-dialog__media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
+}
+
+.card__media img {
   transition: transform 300ms var(--ease);
 }
 
@@ -716,7 +676,9 @@ button {
   padding: var(--space-5);
 }
 
-.card__category {
+.card__family,
+.product-dialog__family {
+  margin-bottom: var(--space-2);
   color: var(--color-gold);
   font-size: var(--fs-xs);
   font-weight: 600;
@@ -725,7 +687,6 @@ button {
 }
 
 .card__title {
-  margin-top: var(--space-2);
   font-family: var(--font-serif);
   font-size: 1.375rem;
   font-weight: 500;
@@ -733,10 +694,15 @@ button {
   overflow-wrap: anywhere;
 }
 
-.card__notes {
-  margin-top: var(--space-1);
+.card__desc {
+  display: -webkit-box;
+  margin-top: var(--space-2);
+  overflow: hidden;
   color: var(--color-text-muted);
   font-size: var(--fs-sm);
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
 }
 
 .card__meta {
@@ -755,25 +721,57 @@ button {
   font-variant-numeric: tabular-nums;
 }
 
-.card__price {
+.card__price,
+.product-dialog__price {
   font-size: var(--fs-lg);
   font-weight: 600;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
 
+.card__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
 .card__cta {
+  position: relative;
+  z-index: 2;
   width: 100%;
+}
+
+/* "Ver detalhes" cobre o card inteiro: tocar em qualquer área abre o detalhe. */
+.card__details {
+  align-self: center;
+  justify-content: center;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.card__details::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.card__details:focus-visible {
+  outline-offset: 0;
 }
 
 /* Esgotado: apenas a imagem e o preço ficam esmaecidos; o texto mantém contraste legível. */
 .card--out .card__media img,
-.card--out .media-placeholder {
+.card--out .card__media .media-placeholder,
+.product-dialog--out .product-dialog__media img,
+.product-dialog--out .product-dialog__media .media-placeholder {
   filter: grayscale(0.8);
   opacity: 0.5;
 }
 
-.card--out .card__price {
+.card--out .card__price,
+.product-dialog--out .product-dialog__price {
   color: var(--color-text-muted);
 }
 
@@ -783,6 +781,222 @@ button {
 
 .card--out:hover .card__media img {
   transform: none;
+}
+
+/* --------------------------------------------------------------------------
+   Detalhe do perfume (dialog)
+   -------------------------------------------------------------------------- */
+
+html:has(.product-dialog[open]) {
+  overflow: hidden;
+}
+
+.product-dialog {
+  width: 100%;
+  max-width: 100%;
+  max-height: 92dvh;
+  margin: auto 0 0;
+  padding: 0;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-line-strong);
+  border-bottom: 0;
+  border-radius: var(--radius) var(--radius) 0 0;
+  color: var(--color-text);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.product-dialog[open] {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  animation: dialog-in var(--duration) var(--ease);
+}
+
+.product-dialog::backdrop {
+  background-color: rgba(3, 5, 12, 0.78);
+}
+
+.product-dialog[open]::backdrop {
+  animation: backdrop-in var(--duration) var(--ease);
+}
+
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+
+@keyframes backdrop-in {
+  from {
+    opacity: 0;
+  }
+}
+
+.product-dialog__close {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background-color: rgba(7, 11, 22, 0.82);
+  border: 1px solid var(--color-line);
+  border-radius: 50%;
+  color: var(--color-text);
+  cursor: pointer;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  transition:
+    border-color var(--duration) var(--ease),
+    color var(--duration) var(--ease);
+}
+
+.product-dialog__close:hover {
+  border-color: var(--color-line-strong);
+  color: var(--color-gold);
+}
+
+.product-dialog__close:focus-visible {
+  border-radius: 50%;
+}
+
+.product-dialog__scroll {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.product-dialog__media {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  max-height: 46dvh;
+  width: 100%;
+  background-color: var(--color-surface-raised);
+  overflow: hidden;
+}
+
+.product-dialog__content {
+  padding: var(--space-5);
+}
+
+.product-dialog__title {
+  font-family: var(--font-serif);
+  font-size: var(--fs-2xl);
+  font-weight: 500;
+  line-height: var(--lh-tight);
+  overflow-wrap: anywhere;
+}
+
+.product-dialog__desc {
+  margin-top: var(--space-3);
+  color: var(--color-text-muted);
+}
+
+.product-dialog__section {
+  margin-top: var(--space-5);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-line);
+}
+
+.product-dialog__heading {
+  margin-bottom: var(--space-3);
+  color: var(--color-gold);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+.spec-list {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+}
+
+.spec-list__row {
+  display: grid;
+  grid-template-columns: 7.5rem 1fr;
+  gap: var(--space-3);
+}
+
+.spec-list dt {
+  color: var(--color-text-subtle);
+  font-size: var(--fs-sm);
+}
+
+.spec-list dd {
+  margin: 0;
+  font-size: var(--fs-sm);
+}
+
+.product-dialog__footer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  padding-bottom: max(var(--space-4), env(safe-area-inset-bottom));
+  background-color: var(--color-surface);
+  border-top: 1px solid var(--color-line);
+}
+
+.product-dialog__summary {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  line-height: var(--lh-snug);
+}
+
+.product-dialog__volume {
+  color: var(--color-text-muted);
+  font-size: var(--fs-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+.product-dialog__cta {
+  flex: 1;
+  min-width: 0;
+  padding: 0 var(--space-4);
+  white-space: nowrap;
+}
+
+@media (min-width: 768px) {
+  .product-dialog {
+    width: calc(100% - 2 * var(--gutter));
+    max-width: 920px;
+    max-height: min(88dvh, 720px);
+    margin: auto;
+    border-bottom: 1px solid var(--color-line-strong);
+    border-radius: var(--radius);
+  }
+
+  .product-dialog__scroll {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    align-items: start;
+  }
+
+  .product-dialog__media {
+    position: sticky;
+    top: 0;
+    max-height: none;
+  }
+
+  .product-dialog__content {
+    padding: var(--space-6) var(--space-6) var(--space-6);
+    padding-right: calc(var(--space-6) + 44px);
+  }
+
+  .product-dialog__footer {
+    padding: var(--space-4) var(--space-6);
+  }
+
+  .product-dialog__cta {
+    flex: 0 1 auto;
+    margin-left: auto;
+  }
 }
 
 /* --------------------------------------------------------------------------
@@ -1082,6 +1296,10 @@ a.contact__item:hover {
   }
 
   .card:hover .card__media img {
+    transform: none;
+  }
+
+  .card:has(.card__details:focus-visible) {
     transform: none;
   }
 }

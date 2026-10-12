@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Dizzy Imports | Perfumes importados e inspirados em Bauru/SP</title>
-  <meta name="description" content="Catálogo de perfumes importados e inspirados da Dizzy Imports em Bauru/SP. Veja volume, preço e disponibilidade e faça seu pedido direto pelo WhatsApp.">
+  <title>Dizzy Imports | Perfumes importados em Bauru/SP</title>
+  <meta name="description" content="Fragrâncias importadas de qualidade em Bauru/SP. Veja o catálogo da Dizzy Imports com volume, preço e disponibilidade e faça seu pedido pelo WhatsApp.">
   <meta name="theme-color" content="#070B16">
   <meta name="color-scheme" content="dark">
 
@@ -12,8 +12,8 @@
   <meta property="og:type" content="website">
   <meta property="og:locale" content="pt_BR">
   <meta property="og:site_name" content="Dizzy Imports">
-  <meta property="og:title" content="Dizzy Imports | Perfumes importados e inspirados em Bauru/SP">
-  <meta property="og:description" content="Melhores fragrâncias para sua assinatura. Veja o catálogo e peça pelo WhatsApp.">
+  <meta property="og:title" content="Dizzy Imports | Perfumes importados em Bauru/SP">
+  <meta property="og:description" content="Fragrâncias importadas de qualidade. Veja o catálogo e peça pelo WhatsApp.">
   <meta property="og:url" content="https://dizzy-imports.vercel.app/">
   <meta property="og:image" content="https://dizzy-imports.vercel.app/assets/img/og-image.jpg">
   <meta property="og:image:width" content="1200">
@@ -54,6 +54,7 @@
     <symbol id="i-at" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-4 8"/></symbol>
     <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 5-5.5 10.2-7.4 11.8a1 1 0 0 1-1.2 0C9.5 20.2 4 15 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></symbol>
     <symbol id="i-bell" viewBox="0 0 24 24"><path d="M10.3 21a2 2 0 0 0 3.4 0"/><path d="M3.3 15.3A1 1 0 0 0 4 17h16a1 1 0 0 0 .7-1.7C19.4 14 18 12.5 18 8A6 6 0 0 0 6 8c0 4.5-1.4 6-2.7 7.3"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
     <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></symbol>
   </svg>
 
@@ -76,11 +77,11 @@
     <section class="hero" aria-labelledby="hero-title">
       <div class="container hero__inner">
         <div class="hero__brand">
-          <img class="hero__logo" src="assets/img/logo.png" alt="" height="96" onerror="this.parentNode.classList.add('hero__brand--text')">
+          <img class="hero__logo" src="assets/img/logo.png" alt="" height="88" onerror="this.parentNode.classList.add('hero__brand--text')">
           <span class="hero__monogram" aria-hidden="true">D</span>
         </div>
         <p class="eyebrow">Dizzy Imports</p>
-        <h1 id="hero-title" class="hero__title">Melhores fragrâncias para sua assinatura</h1>
+        <h1 id="hero-title" class="hero__title">Fragrâncias importadas de qualidade</h1>
         <p class="hero__subtitle">Perfumes e cosméticos <span class="sep" aria-hidden="true">|</span><span class="visually-hidden">,</span> Bauru/SP</p>
         <div class="hero__actions">
           <a class="btn btn--primary btn--lg" href="https://wa.me/5514988083978?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Dizzy%20Imports%20e%20gostaria%20de%20fazer%20um%20pedido." target="_blank" rel="noopener" data-whatsapp>
@@ -103,24 +104,15 @@
           <p class="section__lead">Confira volume, preço e disponibilidade de cada perfume e peça direto pelo WhatsApp.</p>
         </header>
 
-        <div class="filters" role="group" aria-label="Filtrar por categoria">
-          <button type="button" class="filter" data-filter="todos" aria-pressed="true">Todos <span class="filter__count" data-count="todos"></span></button>
-          <button type="button" class="filter" data-filter="importado" aria-pressed="false">Importados <span class="filter__count" data-count="importado"></span></button>
-          <button type="button" class="filter" data-filter="inspirado" aria-pressed="false">Inspirados <span class="filter__count" data-count="inspirado"></span></button>
-        </div>
-
-        <p class="filters__hint" data-filter-hint></p>
-        <p class="visually-hidden" role="status" aria-live="polite" data-results-status></p>
-
         <ul class="product-grid" data-product-grid></ul>
 
         <div class="empty-state" data-empty-state hidden>
           <span class="empty-state__mark" aria-hidden="true">D</span>
-          <h3 class="empty-state__title" data-empty-title>Nenhum perfume nesta categoria no momento</h3>
-          <p class="empty-state__text">Conte qual fragrância você procura e verificamos a disponibilidade para você.</p>
-          <a class="btn btn--outline" href="https://wa.me/5514988083978?text=Ol%C3%A1!%20N%C3%A3o%20encontrei%20o%20perfume%20que%20procuro%20no%20site%20da%20Dizzy%20Imports.%20Voc%C3%AAs%20podem%20me%20ajudar%3F" target="_blank" rel="noopener" data-whatsapp>
+          <h3 class="empty-state__title">Catálogo sendo atualizado</h3>
+          <p class="empty-state__text">Chame no WhatsApp e confira as fragrâncias disponíveis.</p>
+          <a class="btn btn--primary" href="https://wa.me/5514988083978?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Dizzy%20Imports%20e%20gostaria%20de%20saber%20quais%20fragr%C3%A2ncias%20est%C3%A3o%20dispon%C3%ADveis." target="_blank" rel="noopener" data-whatsapp>
             <svg class="icon" aria-hidden="true"><use href="#i-chat"/></svg>
-            <span>Perguntar no WhatsApp</span>
+            <span>Chamar no WhatsApp</span>
           </a>
         </div>
 
@@ -217,17 +209,43 @@
           <span class="badge" data-badge></span>
         </div>
         <div class="card__body">
-          <p class="card__category" data-category></p>
+          <p class="card__family" data-family></p>
           <h3 class="card__title" data-name></h3>
-          <p class="card__notes" data-notes></p>
+          <p class="card__desc" data-desc></p>
           <div class="card__meta">
             <span class="card__volume" data-volume></span>
             <span class="card__price" data-price></span>
           </div>
-          <a class="btn card__cta" target="_blank" rel="noopener" data-cta></a>
+          <div class="card__actions">
+            <a class="btn card__cta" href="https://wa.me/5514988083978?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Dizzy%20Imports%20e%20gostaria%20de%20saber%20mais." target="_blank" rel="noopener" data-cta></a>
+            <button type="button" class="link-quiet card__details" aria-haspopup="dialog" data-details>Ver detalhes</button>
+          </div>
         </div>
       </article>
     </li>
   </template>
+
+  <dialog class="product-dialog" aria-labelledby="product-dialog-title" data-dialog>
+    <button type="button" class="product-dialog__close" aria-label="Fechar detalhes" data-dialog-close autofocus>
+      <svg class="icon" aria-hidden="true"><use href="#i-close"/></svg>
+    </button>
+    <div class="product-dialog__scroll">
+      <div class="product-dialog__media" data-dialog-media>
+        <span class="badge" data-dialog-badge></span>
+      </div>
+      <div class="product-dialog__content" data-dialog-content>
+        <p class="product-dialog__family" data-dialog-family></p>
+        <h2 id="product-dialog-title" class="product-dialog__title" data-dialog-name></h2>
+        <p class="product-dialog__desc" data-dialog-desc></p>
+      </div>
+    </div>
+    <div class="product-dialog__footer">
+      <p class="product-dialog__summary">
+        <span class="product-dialog__price" data-dialog-price></span>
+        <span class="product-dialog__volume" data-dialog-volume></span>
+      </p>
+      <a class="btn product-dialog__cta" href="https://wa.me/5514988083978?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Dizzy%20Imports%20e%20gostaria%20de%20saber%20mais." target="_blank" rel="noopener" data-dialog-cta></a>
+    </div>
+  </dialog>
 </body>
 </html>
