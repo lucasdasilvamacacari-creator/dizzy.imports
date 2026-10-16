@@ -90,5 +90,18 @@ window.DIZZY_PRODUTOS = [
       fundo: ["Almíscar", "Âmbar cinzento", "Patchouli", "Baunilha"]
     },
     fixacao: "Alta"
+  },
+  {
+    id: "galaxy-lucky-millionaire",
+    marca: "Galaxy Plus Concept",
+    nome: "Lucky Millionaire",
+    ml: null,                       // confirmar o volume do spray
+    preco: 60,
+    imagem: "assets/img/produtos/galaxy-lucky-millionaire.webp",
+    emEstoque: true,
+    caracteristicas: ["Marcante", "Adocicado", "Especiado"],
+    ocasiao: "Dia e noite",
+    familia: "Amadeirado especiado",
+    descricao: "Perfume spray de toque adocicado e especiado sobre um fundo amadeirado. Prático para levar e usar no dia a dia."
   }
 ];

@@ -46,7 +46,7 @@ vercel.json           configuração da Vercel
 3. Salve, faça o commit e envie para o GitHub. A Vercel publica sozinha em cerca de 1 minuto.
 
 O que aparece onde:
-- **Card (catálogo):** foto, marca, nome, características do cheiro e dia/noite (com ícone de sol ou lua). O card inteiro é um botão.
+- **Card (catálogo):** 3 por linha no celular (foto, nome e ícone de dia/noite) e 3 ou 4 por linha no computador (com marca e características do cheiro). O card inteiro é um botão.
 - **Detalhe** (ao tocar no card): foto, família olfativa, descrição, mL, preço à vista, parcelamento, notas de topo, coração e fundo, fixação e o botão "Pedir no WhatsApp".
 - Campos opcionais vazios ou apagados simplesmente não aparecem.
 
