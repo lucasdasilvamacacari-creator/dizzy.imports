@@ -166,5 +166,16 @@ window.DIZZY_PRODUTOS = [
       fundo: ["Baunilha", "Âmbar", "Benjoim", "Ládano"]
     },
     fixacao: "Alta"
+  },
+  {
+    id: "attar-al-wesal-100",
+    nome: "Attar Al Wesal",
+    ml: 100,
+    preco: 200,
+    imagem: "assets/img/produtos/attar-al-wesal.webp",
+    caracteristicas: ["Intenso", "Amadeirado", "Especiado"],
+    ocasiao: "Noite",
+    familia: "Oriental amadeirado",
+    descricao: "Oriental de presença marcante, com especiarias quentes sobre um fundo amadeirado. Intenso e sofisticado."
   }
 ];
