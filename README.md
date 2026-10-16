@@ -26,12 +26,11 @@ vercel.json           configuração da Vercel
   ml: 75,
   preco: 200,                      // à vista; ponto nos centavos (199.9 = R$ 199,90)
   imagem: "assets/img/produtos/davidoff-cool-water.webp",  // ou "" para "Foto em breve"
-  emEstoque: true,                 // false = esgotado, com botão "Avise-me"
 
   // Opcionais
   marca: "Davidoff",
   caracteristicas: ["Fresco", "Aquático", "Aromático"],
-  ocasiao: "Dia",                  // "Dia", "Noite" ou "Dia e noite"
+  ocasiao: "Dia",                  // "Dia", "Dia e noite" ou "Noite"
   familia: "Aromático aquático",
   descricao: "Uma ou duas frases sensoriais sobre o perfume.",
   notas: {
@@ -56,7 +55,8 @@ Link direto para um perfume: `endereço-do-site/#id-do-perfume` (ex.: `/#davidof
 
 Dicas:
 - Separe um perfume do outro com vírgula.
-- Perfumes esgotados aparecem automaticamente no fim da lista.
+- O catálogo é um mostruário, sem controle de estoque.
+- A ordem é automática, do dia para a noite: primeiro "Dia", depois "Dia e noite", depois "Noite" (e por último os sem ocasião). Dentro de cada grupo, vale a ordem do arquivo.
 - Com a lista vazia (`window.DIZZY_PRODUTOS = [];`), o site mostra "Catálogo sendo atualizado" com o botão de WhatsApp.
 - Para remover um perfume, apague o bloco inteiro (de `{` até `},`).
 - Em perfumes inspirados em outros, use somente o nome próprio do produto e a família olfativa. Nunca cite o perfume ou a marca de referência.

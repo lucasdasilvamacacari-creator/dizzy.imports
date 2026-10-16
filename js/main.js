@@ -37,7 +37,6 @@
           ml: Number(p.ml) || null,
           preco: typeof p.preco === "number" ? p.preco : Number(p.preco),
           imagem: texto(p.imagem),
-          emEstoque: p.emEstoque !== false,
           familia: texto(p.familia),
           caracteristicas: lista(p.caracteristicas),
           descricao: texto(p.descricao),
@@ -52,10 +51,20 @@
         };
       })
       .sort(function (a, b) {
-        // Disponíveis primeiro; dentro de cada grupo, mantém a ordem do arquivo.
-        if (a.emEstoque !== b.emEstoque) return a.emEstoque ? -1 : 1;
-        return a.ordem - b.ordem;
+        // Do dia para a noite; dentro de cada grupo, mantém a ordem do arquivo.
+        return ordemDoDia(a.ocasiao) - ordemDoDia(b.ocasiao) || a.ordem - b.ordem;
       });
+  }
+
+  // Dia → Dia e noite → Noite → sem ocasião.
+  function ordemDoDia(ocasiao) {
+    var o = ocasiao.toLowerCase();
+    var dia = o.indexOf("dia") !== -1;
+    var noite = o.indexOf("noite") !== -1;
+    if (dia && noite) return 1;
+    if (dia) return 0;
+    if (noite) return 2;
+    return 3;
   }
 
   function nomeCompleto(p) {
@@ -145,36 +154,20 @@
     container.appendChild(img);
   }
 
-  // Botão de WhatsApp: "Pedir" para disponíveis, "Avise-me" para esgotados.
   function preencherCta(cta, p) {
     var rotulo = document.createElement("span");
-    cta.classList.remove("btn--primary", "btn--outline");
-    if (p.emEstoque) {
-      cta.classList.add("btn--primary");
-      cta.href = linkWhatsApp(
-        "Olá! Vi o perfume " + nomeComVolume(p) + " no site da Dizzy Imports e gostaria de fazer um pedido."
-      );
-      rotulo.textContent = "Pedir no WhatsApp";
-      cta.setAttribute("aria-label", "Pedir no WhatsApp: " + nomeCompleto(p));
-      cta.replaceChildren(criarIcone("i-chat"), rotulo);
-    } else {
-      cta.classList.add("btn--outline");
-      cta.href = linkWhatsApp(
-        "Olá! Vi que o perfume " + nomeComVolume(p) + " está esgotado no site da Dizzy Imports. Pode me avisar quando chegar?"
-      );
-      rotulo.textContent = "Avise-me";
-      cta.setAttribute("aria-label", "Avise-me quando chegar: " + nomeCompleto(p));
-      cta.replaceChildren(criarIcone("i-bell"), rotulo);
-    }
+    rotulo.textContent = "Pedir no WhatsApp";
+    cta.classList.add("btn--primary");
+    cta.href = linkWhatsApp(
+      "Olá! Vi o perfume " + nomeComVolume(p) + " no site da Dizzy Imports e gostaria de fazer um pedido."
+    );
+    cta.setAttribute("aria-label", "Pedir no WhatsApp: " + nomeCompleto(p));
+    cta.replaceChildren(criarIcone("i-chat"), rotulo);
   }
 
   function criarCard(template, p, indice, abrirDetalhe) {
     var fragmento = template.content.cloneNode(true);
-    var card = fragmento.querySelector(".card");
     var detalhes = fragmento.querySelector("[data-details]");
-
-    if (!p.emEstoque) card.classList.add("card--out");
-    fragmento.querySelector("[data-badge]").hidden = p.emEstoque;
 
     preencherMidia(fragmento.querySelector(".card__media"), p, indice < 2 ? "eager" : "lazy");
     preencher(fragmento.querySelector("[data-brand]"), p.marca);
@@ -246,16 +239,10 @@
 
     return function abrir(p, gatilho) {
       origem = gatilho || null;
-      dialog.classList.toggle("product-dialog--out", !p.emEstoque);
-
       Array.prototype.slice.call(media.querySelectorAll("img, .media-placeholder")).forEach(function (el) {
         el.remove();
       });
       preencherMidia(media, p, "eager");
-
-      var badge = $("[data-dialog-badge]");
-      badge.textContent = p.emEstoque ? "Em estoque" : "Esgotado";
-      badge.classList.toggle("badge--out", !p.emEstoque);
 
       preencher($("[data-dialog-brand]"), p.marca);
       $("[data-dialog-name]").textContent = p.nome;

@@ -53,7 +53,6 @@
     <symbol id="i-chat" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></symbol>
     <symbol id="i-at" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-4 8"/></symbol>
     <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 5-5.5 10.2-7.4 11.8a1 1 0 0 1-1.2 0C9.5 20.2 4 15 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></symbol>
-    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M10.3 21a2 2 0 0 0 3.4 0"/><path d="M3.3 15.3A1 1 0 0 0 4 17h16a1 1 0 0 0 .7-1.7C19.4 14 18 12.5 18 8A6 6 0 0 0 6 8c0 4.5-1.4 6-2.7 7.3"/></symbol>
     <symbol id="i-close" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
     <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></symbol>
     <symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
@@ -208,9 +207,7 @@
   <template id="product-card-template">
     <li class="product-grid__item">
       <article class="card">
-        <div class="card__media">
-          <span class="badge badge--out" data-badge hidden>Esgotado</span>
-        </div>
+        <div class="card__media"></div>
         <div class="card__body">
           <p class="card__brand" data-brand></p>
           <h3 class="card__title" data-name></h3>
@@ -232,9 +229,7 @@
       <svg class="icon" aria-hidden="true"><use href="#i-close"/></svg>
     </button>
     <div class="product-dialog__scroll">
-      <div class="product-dialog__media" data-dialog-media>
-        <span class="badge" data-dialog-badge></span>
-      </div>
+      <div class="product-dialog__media" data-dialog-media></div>
       <div class="product-dialog__content" data-dialog-content>
         <p class="product-dialog__brand" data-dialog-brand></p>
         <h2 id="product-dialog-title" class="product-dialog__title" data-dialog-name></h2>

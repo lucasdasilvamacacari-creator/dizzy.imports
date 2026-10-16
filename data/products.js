@@ -2,6 +2,8 @@
   CATÁLOGO DA DIZZY IMPORTS
   Edite somente este arquivo para adicionar, alterar ou remover perfumes.
   Se a lista ficar vazia, o site mostra "Catálogo sendo atualizado".
+  O catálogo é organizado sozinho do dia para a noite (Dia → Dia e noite → Noite),
+  pelo campo "ocasiao". Dentro de cada grupo, vale a ordem deste arquivo.
 
   MODELO — copie o bloco abaixo para dentro dos colchetes de DIZZY_PRODUTOS
   e preencha. Separe um perfume do outro com vírgula.
@@ -13,12 +15,11 @@
     ml: 100,                                // só o número
     preco: 200,                             // à vista; ponto nos centavos (199.9 = R$ 199,90)
     imagem: "assets/img/produtos/marca-nome.webp",  // WebP 3:4; "" mostra "Foto em breve"
-    emEstoque: true,                        // false = esgotado, com botão "Avise-me"
 
     // Opcionais (apague a linha ou deixe "" para não exibir)
     marca: "Marca",
     caracteristicas: ["Fresco", "Aquático"],   // aparecem no card, abaixo da foto
-    ocasiao: "Dia",                            // "Dia", "Noite" ou "Dia e noite" (mostra sol/lua)
+    ocasiao: "Dia",                            // "Dia", "Dia e noite" ou "Noite" (mostra sol/lua e define a ordem)
     familia: "Aromático aquático",
     descricao: "Uma ou duas frases sensoriais sobre o perfume.",
     notas: {
@@ -41,7 +42,6 @@ window.DIZZY_PRODUTOS = [
     ml: 75,
     preco: 200,
     imagem: "assets/img/produtos/davidoff-cool-water.webp",
-    emEstoque: true,
     caracteristicas: ["Fresco", "Aquático", "Aromático"],
     ocasiao: "Dia",
     familia: "Aromático aquático",
@@ -60,7 +60,6 @@ window.DIZZY_PRODUTOS = [
     ml: 100,
     preco: 200,
     imagem: "assets/img/produtos/jacques-bogart-silver-scent.webp",
-    emEstoque: true,
     caracteristicas: ["Intenso", "Adocicado", "Amadeirado"],
     ocasiao: "Noite",
     familia: "Oriental amadeirado",
@@ -79,7 +78,6 @@ window.DIZZY_PRODUTOS = [
     ml: 105,
     preco: 250,
     imagem: "assets/img/produtos/armaf-club-de-nuit-intense-man.webp",
-    emEstoque: true,
     caracteristicas: ["Poderoso", "Frutado", "Defumado"],
     ocasiao: "Noite",
     familia: "Amadeirado frutado",
@@ -95,13 +93,78 @@ window.DIZZY_PRODUTOS = [
     id: "galaxy-lucky-millionaire",
     marca: "Galaxy Plus Concept",
     nome: "Lucky Millionaire",
-    ml: null,                       // confirmar o volume do spray
+    ml: 200,
     preco: 60,
     imagem: "assets/img/produtos/galaxy-lucky-millionaire.webp",
-    emEstoque: true,
     caracteristicas: ["Marcante", "Adocicado", "Especiado"],
     ocasiao: "Dia e noite",
     familia: "Amadeirado especiado",
     descricao: "Perfume spray de toque adocicado e especiado sobre um fundo amadeirado. Prático para levar e usar no dia a dia."
+  },
+  {
+    id: "galaxy-100-millions",
+    marca: "Galaxy Concept",
+    nome: "100 Millions",
+    ml: 200,
+    preco: 60,
+    imagem: "assets/img/produtos/galaxy-100-millions.webp",
+    caracteristicas: ["Adocicado", "Ambarado", "Marcante"],
+    ocasiao: "Noite",
+    familia: "Ambarado adocicado",
+    descricao: "Perfume spray quente e adocicado, com fundo ambarado. Rende bem e deixa um rastro marcante."
+  },
+  {
+    id: "maison-alhambra-glacier-heaven-100",
+    marca: "Maison Alhambra",
+    nome: "Glacier Heaven",
+    ml: 100,
+    preco: 200,
+    imagem: "assets/img/produtos/maison-alhambra-glacier-heaven.webp",
+    caracteristicas: ["Fresco", "Verde", "Leve"],
+    ocasiao: "Dia",
+    familia: "Aromático fresco",
+    descricao: "Fresco e luminoso, com um verde limpo que acompanha bem os dias quentes."
+  },
+  {
+    id: "maison-alhambra-glacier-bold-100",
+    marca: "Maison Alhambra",
+    nome: "Glacier Bold",
+    ml: 100,
+    preco: 200,
+    imagem: "assets/img/produtos/maison-alhambra-glacier-bold.webp",
+    caracteristicas: ["Intenso", "Aromático", "Mentolado"],
+    ocasiao: "Dia e noite",
+    familia: "Aromático intenso",
+    descricao: "Aromático e encorpado, com frescor mentolado sobre um fundo mais denso. Presença do dia até a noite."
+  },
+  {
+    id: "carrera-pour-homme-100",
+    marca: "Carrera",
+    nome: "Pour Homme",
+    ml: 100,
+    preco: 200,
+    imagem: "assets/img/produtos/carrera-pour-homme.webp",
+    caracteristicas: ["Fresco", "Verde", "Cítrico"],
+    ocasiao: "Dia",
+    familia: "Aromático verde",
+    descricao: "Clássico fresco e verde, com abertura cítrica. Limpo e fácil de usar no dia a dia."
+  },
+  {
+    id: "lattafa-asad-100",
+    marca: "Lattafa",
+    nome: "Asad",
+    ml: 100,
+    preco: 230,
+    imagem: "assets/img/produtos/lattafa-asad.webp",
+    caracteristicas: ["Intenso", "Especiado", "Adocicado"],
+    ocasiao: "Noite",
+    familia: "Ambarado especiado",
+    descricao: "Pimenta-preta e abacaxi abrem caminho para café e um fundo quente de baunilha e âmbar. Intenso e envolvente.",
+    notas: {
+      topo: ["Pimenta-preta", "Abacaxi", "Tabaco"],
+      coracao: ["Café", "Patchouli", "Íris"],
+      fundo: ["Baunilha", "Âmbar", "Benjoim", "Ládano"]
+    },
+    fixacao: "Alta"
   }
 ];
