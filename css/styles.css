@@ -166,6 +166,10 @@ button {
   color: var(--color-bg);
 }
 
+[hidden] {
+  display: none !important;
+}
+
 .sprite {
   position: absolute;
   overflow: hidden;
@@ -556,6 +560,7 @@ button {
   display: flex;
 }
 
+/* O card inteiro é um botão que abre o detalhe do perfume. */
 .card {
   position: relative;
   display: flex;
@@ -579,9 +584,10 @@ button {
   transform: translateY(-2px);
 }
 
-.card__media {
+.card__media,
+.product-dialog__media {
   position: relative;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 3 / 4;
   background-color: var(--color-surface-raised);
   overflow: hidden;
 }
@@ -657,6 +663,10 @@ button {
   backdrop-filter: blur(6px);
 }
 
+.badge[hidden] {
+  display: none;
+}
+
 .badge::before {
   content: "";
   width: 6px;
@@ -676,9 +686,9 @@ button {
   padding: var(--space-5);
 }
 
-.card__family,
-.product-dialog__family {
-  margin-bottom: var(--space-2);
+.card__brand,
+.product-dialog__brand {
+  margin-bottom: var(--space-1);
   color: var(--color-gold);
   font-size: var(--fs-xs);
   font-weight: 600;
@@ -694,60 +704,68 @@ button {
   overflow-wrap: anywhere;
 }
 
-.card__desc {
-  display: -webkit-box;
-  margin-top: var(--space-2);
-  overflow: hidden;
-  color: var(--color-text-muted);
-  font-size: var(--fs-sm);
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
+/* Características do cheiro: etiquetas finas e discretas. */
+.traits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: var(--space-3);
 }
 
-.card__meta {
+.traits li {
+  padding: 2px 10px;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-pill);
+  color: var(--color-text-muted);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1.6;
+}
+
+.card__footer {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   gap: var(--space-3);
   margin-top: auto;
-  padding-top: var(--space-4);
-  padding-bottom: var(--space-4);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-line);
 }
 
-.card__volume {
-  color: var(--color-text-muted);
+.card__body .traits {
+  margin-bottom: var(--space-4);
+}
+
+.occasion {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-text);
   font-size: var(--fs-sm);
-  font-variant-numeric: tabular-nums;
 }
 
-.card__price,
-.product-dialog__price {
-  font-size: var(--fs-lg);
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
+.occasion .icon {
+  color: var(--color-gold);
 }
 
-.card__actions {
-  display: flex;
-  flex-direction: column;
+.occasion__icons {
+  display: inline-flex;
   gap: var(--space-1);
-}
-
-.card__cta {
-  position: relative;
-  z-index: 2;
-  width: 100%;
 }
 
 /* "Ver detalhes" cobre o card inteiro: tocar em qualquer área abre o detalhe. */
 .card__details {
-  align-self: center;
-  justify-content: center;
+  margin-left: auto;
+  padding-right: 0;
   background: none;
   border: 0;
+  color: var(--color-gold);
   cursor: pointer;
+}
+
+.card__details:hover {
+  color: var(--color-gold-hover);
 }
 
 .card__details::after {
@@ -755,6 +773,14 @@ button {
   position: absolute;
   inset: 0;
   z-index: 1;
+}
+
+.card__details .icon {
+  transition: transform var(--duration) var(--ease);
+}
+
+.card:hover .card__details .icon {
+  transform: translateX(3px);
 }
 
 .card__details:focus-visible {
@@ -770,8 +796,8 @@ button {
   opacity: 0.5;
 }
 
-.card--out .card__price,
-.product-dialog--out .product-dialog__price {
+.product-dialog--out .product-dialog__price,
+.product-dialog--out .price-box__value {
   color: var(--color-text-muted);
 }
 
@@ -808,6 +834,7 @@ html:has(.product-dialog[open]) {
 
 .product-dialog[open] {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   grid-template-rows: minmax(0, 1fr) auto;
   animation: dialog-in var(--duration) var(--ease);
 }
@@ -869,15 +896,6 @@ html:has(.product-dialog[open]) {
   overscroll-behavior: contain;
 }
 
-.product-dialog__media {
-  position: relative;
-  aspect-ratio: 4 / 5;
-  max-height: 46dvh;
-  width: 100%;
-  background-color: var(--color-surface-raised);
-  overflow: hidden;
-}
-
 .product-dialog__content {
   padding: var(--space-5);
 }
@@ -890,9 +908,61 @@ html:has(.product-dialog[open]) {
   overflow-wrap: anywhere;
 }
 
-.product-dialog__desc {
-  margin-top: var(--space-3);
+.product-dialog__family {
+  margin-top: var(--space-2);
   color: var(--color-text-muted);
+  font-size: var(--fs-sm);
+}
+
+.product-dialog__desc {
+  margin-top: var(--space-4);
+  color: var(--color-text-muted);
+}
+
+.product-dialog__content .occasion {
+  margin-top: var(--space-4);
+}
+
+/* Bloco de valores: volume, preço à vista e parcelamento. */
+.price-box {
+  margin-top: var(--space-5);
+  padding: var(--space-4) var(--space-5);
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius-sm);
+}
+
+.price-box__volume {
+  color: var(--color-text-muted);
+  font-size: var(--fs-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+.price-box__main {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin-top: var(--space-1);
+}
+
+.price-box__value {
+  font-size: var(--fs-xl);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.price-box__label {
+  color: var(--color-gold);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+}
+
+.price-box__installments {
+  margin-top: var(--space-1);
+  color: var(--color-text-muted);
+  font-size: var(--fs-sm);
 }
 
 .product-dialog__section {
@@ -918,7 +988,7 @@ html:has(.product-dialog[open]) {
 
 .spec-list__row {
   display: grid;
-  grid-template-columns: 7.5rem 1fr;
+  grid-template-columns: 6.5rem 1fr;
   gap: var(--space-3);
 }
 
@@ -949,6 +1019,13 @@ html:has(.product-dialog[open]) {
   line-height: var(--lh-snug);
 }
 
+.product-dialog__price {
+  font-size: var(--fs-lg);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
 .product-dialog__volume {
   color: var(--color-text-muted);
   font-size: var(--fs-sm);
@@ -965,8 +1042,8 @@ html:has(.product-dialog[open]) {
 @media (min-width: 768px) {
   .product-dialog {
     width: calc(100% - 2 * var(--gutter));
-    max-width: 920px;
-    max-height: min(88dvh, 720px);
+    max-width: 960px;
+    max-height: min(90dvh, 760px);
     margin: auto;
     border-bottom: 1px solid var(--color-line-strong);
     border-radius: var(--radius);
@@ -981,11 +1058,10 @@ html:has(.product-dialog[open]) {
   .product-dialog__media {
     position: sticky;
     top: 0;
-    max-height: none;
   }
 
   .product-dialog__content {
-    padding: var(--space-6) var(--space-6) var(--space-6);
+    padding: var(--space-6);
     padding-right: calc(var(--space-6) + 44px);
   }
 
@@ -996,6 +1072,7 @@ html:has(.product-dialog[open]) {
   .product-dialog__cta {
     flex: 0 1 auto;
     margin-left: auto;
+    padding: 0 var(--space-5);
   }
 }
 

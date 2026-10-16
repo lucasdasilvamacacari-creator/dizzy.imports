@@ -17,32 +17,34 @@
   }
 
   // Aceita lista (["Bergamota", "Pimenta rosa"]) ou texto separado por vírgulas.
-  function listaDeNotas(valor) {
+  function lista(valor) {
     var itens = Array.isArray(valor) ? valor : typeof valor === "string" ? valor.split(",") : [];
     return itens.map(texto).filter(Boolean);
   }
 
-  function normalizarProdutos(lista) {
-    if (!Array.isArray(lista)) return [];
-    return lista
+  function normalizarProdutos(produtos) {
+    if (!Array.isArray(produtos)) return [];
+    return produtos
       .filter(function (p) {
         return p && texto(p.nome);
       })
       .map(function (p, indice) {
         var notas = p.notas || {};
         return {
-          id: String(p.id || indice),
+          id: texto(String(p.id || "")) || "perfume-" + indice,
           nome: texto(p.nome),
+          marca: texto(p.marca),
           ml: Number(p.ml) || null,
           preco: typeof p.preco === "number" ? p.preco : Number(p.preco),
           imagem: texto(p.imagem),
           emEstoque: p.emEstoque !== false,
           familia: texto(p.familia),
+          caracteristicas: lista(p.caracteristicas),
           descricao: texto(p.descricao),
           notas: {
-            topo: listaDeNotas(notas.topo),
-            coracao: listaDeNotas(notas.coracao),
-            fundo: listaDeNotas(notas.fundo)
+            topo: lista(notas.topo),
+            coracao: lista(notas.coracao),
+            fundo: lista(notas.fundo)
           },
           ocasiao: texto(p.ocasiao),
           fixacao: texto(p.fixacao),
@@ -56,18 +58,57 @@
       });
   }
 
+  function nomeCompleto(p) {
+    return p.marca ? p.marca + " " + p.nome : p.nome;
+  }
+
   function nomeComVolume(p) {
-    return p.ml ? p.nome + " (" + p.ml + "ml)" : p.nome;
+    return p.ml ? nomeCompleto(p) + " (" + p.ml + "ml)" : nomeCompleto(p);
   }
 
-  function precoFormatado(p) {
-    return isFinite(p.preco) && p.preco > 0 ? formatoPreco.format(p.preco) : "Consulte";
+  function temPreco(p) {
+    return isFinite(p.preco) && p.preco > 0;
   }
 
-  // Preenche um texto ou remove o elemento quando o campo está vazio.
+  function criarIcone(id, classe) {
+    var svg = document.createElementNS(SVG_NS, "svg");
+    svg.setAttribute("class", "icon" + (classe ? " " + classe : ""));
+    svg.setAttribute("aria-hidden", "true");
+    var uso = document.createElementNS(SVG_NS, "use");
+    uso.setAttribute("href", "#" + id);
+    svg.appendChild(uso);
+    return svg;
+  }
+
+  // Preenche um texto ou esconde o elemento quando o campo está vazio.
   function preencher(el, valor) {
-    if (valor) el.textContent = valor;
-    else el.remove();
+    el.textContent = valor || "";
+    el.hidden = !valor;
+  }
+
+  function preencherCaracteristicas(ul, itens) {
+    ul.replaceChildren.apply(ul, itens.map(function (item) {
+      var li = document.createElement("li");
+      li.textContent = item;
+      return li;
+    }));
+    ul.hidden = !itens.length;
+  }
+
+  // Ocasião com ícone de sol (dia) e/ou lua (noite).
+  function preencherOcasiao(el, ocasiao) {
+    el.replaceChildren();
+    el.hidden = !ocasiao;
+    if (!ocasiao) return;
+    var minusculo = ocasiao.toLowerCase();
+    var icones = document.createElement("span");
+    icones.className = "occasion__icons";
+    if (minusculo.indexOf("dia") !== -1) icones.appendChild(criarIcone("i-sun", "icon--sm"));
+    if (minusculo.indexOf("noite") !== -1) icones.appendChild(criarIcone("i-moon", "icon--sm"));
+    if (icones.childNodes.length) el.appendChild(icones);
+    var rotulo = document.createElement("span");
+    rotulo.textContent = ocasiao;
+    el.appendChild(rotulo);
   }
 
   function criarPlaceholder(rotulo) {
@@ -92,9 +133,9 @@
     }
     var img = document.createElement("img");
     img.src = p.imagem;
-    img.alt = p.nome;
-    img.width = 800;
-    img.height = 1000;
+    img.alt = nomeCompleto(p);
+    img.width = 768;
+    img.height = 1024;
     img.decoding = "async";
     img.loading = carregamento;
     img.addEventListener("error", function () {
@@ -104,40 +145,27 @@
     container.appendChild(img);
   }
 
-  function preencherSelo(badge, p) {
-    badge.textContent = p.emEstoque ? "Em estoque" : "Esgotado";
-    badge.classList.toggle("badge--out", !p.emEstoque);
-  }
-
   // Botão de WhatsApp: "Pedir" para disponíveis, "Avise-me" para esgotados.
   function preencherCta(cta, p) {
-    var icone = document.createElementNS(SVG_NS, "svg");
-    icone.setAttribute("class", "icon");
-    icone.setAttribute("aria-hidden", "true");
-    var uso = document.createElementNS(SVG_NS, "use");
     var rotulo = document.createElement("span");
-
     cta.classList.remove("btn--primary", "btn--outline");
     if (p.emEstoque) {
       cta.classList.add("btn--primary");
       cta.href = linkWhatsApp(
-        "Olá! Vi o perfume " + nomeComVolume(p) + " no site da Dizzy Imports e gostaria de saber mais."
+        "Olá! Vi o perfume " + nomeComVolume(p) + " no site da Dizzy Imports e gostaria de fazer um pedido."
       );
-      uso.setAttribute("href", "#i-chat");
       rotulo.textContent = "Pedir no WhatsApp";
-      cta.setAttribute("aria-label", "Pedir no WhatsApp: " + p.nome);
+      cta.setAttribute("aria-label", "Pedir no WhatsApp: " + nomeCompleto(p));
+      cta.replaceChildren(criarIcone("i-chat"), rotulo);
     } else {
       cta.classList.add("btn--outline");
       cta.href = linkWhatsApp(
         "Olá! Vi que o perfume " + nomeComVolume(p) + " está esgotado no site da Dizzy Imports. Pode me avisar quando chegar?"
       );
-      uso.setAttribute("href", "#i-bell");
       rotulo.textContent = "Avise-me";
-      cta.setAttribute("aria-label", "Avise-me quando chegar: " + p.nome);
+      cta.setAttribute("aria-label", "Avise-me quando chegar: " + nomeCompleto(p));
+      cta.replaceChildren(criarIcone("i-bell"), rotulo);
     }
-
-    icone.appendChild(uso);
-    cta.replaceChildren(icone, rotulo);
   }
 
   function criarCard(template, p, indice, abrirDetalhe) {
@@ -146,17 +174,15 @@
     var detalhes = fragmento.querySelector("[data-details]");
 
     if (!p.emEstoque) card.classList.add("card--out");
+    fragmento.querySelector("[data-badge]").hidden = p.emEstoque;
 
     preencherMidia(fragmento.querySelector(".card__media"), p, indice < 2 ? "eager" : "lazy");
-    preencherSelo(fragmento.querySelector("[data-badge]"), p);
-    preencher(fragmento.querySelector("[data-family]"), p.familia);
+    preencher(fragmento.querySelector("[data-brand]"), p.marca);
     fragmento.querySelector("[data-name]").textContent = p.nome;
-    preencher(fragmento.querySelector("[data-desc]"), p.descricao);
-    fragmento.querySelector("[data-volume]").textContent = p.ml ? p.ml + " ml" : "";
-    fragmento.querySelector("[data-price]").textContent = precoFormatado(p);
-    preencherCta(fragmento.querySelector("[data-cta]"), p);
+    preencherCaracteristicas(fragmento.querySelector("[data-traits]"), p.caracteristicas);
+    preencherOcasiao(fragmento.querySelector("[data-occasion]"), p.ocasiao);
 
-    detalhes.setAttribute("aria-label", "Ver detalhes: " + p.nome);
+    detalhes.setAttribute("aria-label", "Ver detalhes: " + nomeCompleto(p));
     detalhes.addEventListener("click", function () {
       abrirDetalhe(p, detalhes);
     });
@@ -194,19 +220,14 @@
     var dialog = document.querySelector("[data-dialog]");
     if (!dialog || typeof dialog.showModal !== "function") return null;
 
-    var media = dialog.querySelector("[data-dialog-media]");
-    var badge = dialog.querySelector("[data-dialog-badge]");
-    var conteudo = dialog.querySelector("[data-dialog-content]");
-    var familia = dialog.querySelector("[data-dialog-family]");
-    var nome = dialog.querySelector("[data-dialog-name]");
-    var descricao = dialog.querySelector("[data-dialog-desc]");
-    var preco = dialog.querySelector("[data-dialog-price]");
-    var volume = dialog.querySelector("[data-dialog-volume]");
-    var cta = dialog.querySelector("[data-dialog-cta]");
-    var scroll = dialog.querySelector(".product-dialog__scroll");
+    var $ = function (seletor) { return dialog.querySelector(seletor); };
+    var media = $("[data-dialog-media]");
+    var conteudo = $("[data-dialog-content]");
+    var scroll = $(".product-dialog__scroll");
+    var parcelamento = texto(window.DIZZY_PARCELAMENTO);
     var origem = null;
 
-    dialog.querySelector("[data-dialog-close]").addEventListener("click", function () {
+    $("[data-dialog-close]").addEventListener("click", function () {
       dialog.close();
     });
 
@@ -216,25 +237,39 @@
     });
 
     dialog.addEventListener("close", function () {
+      if (window.location.hash && window.history.replaceState) {
+        window.history.replaceState(null, "", window.location.pathname + window.location.search);
+      }
       if (origem && document.contains(origem)) origem.focus();
       origem = null;
     });
 
     return function abrir(p, gatilho) {
-      origem = gatilho;
+      origem = gatilho || null;
       dialog.classList.toggle("product-dialog--out", !p.emEstoque);
 
       Array.prototype.slice.call(media.querySelectorAll("img, .media-placeholder")).forEach(function (el) {
         el.remove();
       });
       preencherMidia(media, p, "eager");
-      preencherSelo(badge, p);
 
-      familia.textContent = p.familia;
-      familia.hidden = !p.familia;
-      nome.textContent = p.nome;
-      descricao.textContent = p.descricao;
-      descricao.hidden = !p.descricao;
+      var badge = $("[data-dialog-badge]");
+      badge.textContent = p.emEstoque ? "Em estoque" : "Esgotado";
+      badge.classList.toggle("badge--out", !p.emEstoque);
+
+      preencher($("[data-dialog-brand]"), p.marca);
+      $("[data-dialog-name]").textContent = p.nome;
+      preencher($("[data-dialog-family]"), p.familia);
+      preencherCaracteristicas($("[data-dialog-traits]"), p.caracteristicas);
+      preencher($("[data-dialog-desc]"), p.descricao);
+      preencherOcasiao($("[data-dialog-occasion]"), p.ocasiao);
+
+      var volume = p.ml ? p.ml + " ml" : "";
+      var preco = temPreco(p) ? formatoPreco.format(p.preco) : "Sob consulta";
+      preencher($("[data-dialog-box-volume]"), volume);
+      $("[data-dialog-box-price]").textContent = preco;
+      $("[data-dialog-box-label]").hidden = !temPreco(p);
+      preencher($("[data-dialog-installments]"), temPreco(p) ? parcelamento : "");
 
       Array.prototype.slice.call(conteudo.querySelectorAll(".product-dialog__section")).forEach(function (el) {
         el.remove();
@@ -249,16 +284,15 @@
         .map(function (n) { return [n[0], n[1].join(", ")]; });
       if (notas.length) conteudo.appendChild(criarSecao("Notas olfativas", notas));
 
-      var ficha = [];
-      if (p.ocasiao) ficha.push(["Ocasião", p.ocasiao]);
-      if (p.fixacao) ficha.push(["Fixação", p.fixacao]);
-      if (p.ml) ficha.push(["Volume", p.ml + " ml"]);
-      if (ficha.length) conteudo.appendChild(criarSecao("Características", ficha));
+      if (p.fixacao) conteudo.appendChild(criarSecao("Desempenho", [["Fixação", p.fixacao]]));
 
-      preco.textContent = precoFormatado(p);
-      volume.textContent = p.ml ? p.ml + " ml" : "";
-      volume.hidden = !p.ml;
-      preencherCta(cta, p);
+      $("[data-dialog-price]").textContent = preco;
+      preencher($("[data-dialog-volume]"), [temPreco(p) ? "à vista" : "", volume].filter(Boolean).join(" · "));
+      preencherCta($("[data-dialog-cta]"), p);
+
+      if (window.history.replaceState) {
+        window.history.replaceState(null, "", "#" + encodeURIComponent(p.id));
+      }
 
       scroll.scrollTop = 0;
       dialog.showModal();
@@ -282,11 +316,19 @@
       return;
     }
 
+    var botoes = {};
     var fragmento = document.createDocumentFragment();
     produtos.forEach(function (p, i) {
-      fragmento.appendChild(criarCard(template, p, i, abrirDetalhe));
+      var card = criarCard(template, p, i, abrirDetalhe);
+      botoes[p.id] = card.querySelector("[data-details]");
+      fragmento.appendChild(card);
     });
     grade.replaceChildren(fragmento);
+
+    // Link direto para um perfume: site.com/#id-do-perfume abre o detalhe.
+    var alvo = decodeURIComponent(window.location.hash.slice(1));
+    var produto = produtos.filter(function (p) { return p.id === alvo; })[0];
+    if (produto) abrirDetalhe(produto, botoes[produto.id]);
   }
 
   function atualizarAno() {

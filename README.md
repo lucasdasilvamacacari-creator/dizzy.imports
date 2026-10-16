@@ -15,38 +15,44 @@ vercel.json           configuração da Vercel
 
 ## Adicionar um perfume
 
-1. Salve a foto em `assets/img/produtos/`, de preferência em **WebP**, na proporção **4:5** (ex.: 800 × 1000 px) e com nome sem espaços nem acentos (ex.: `nome-do-perfume.webp`). Para converter, use o [Squoosh](https://squoosh.app).
+1. Salve a foto em `assets/img/produtos/`, em **WebP**, na proporção **3:4** (ex.: 768 × 1024 px, o mesmo formato das artes da Dizzy) e com nome sem espaços nem acentos (ex.: `davidoff-cool-water.webp`). Para converter, use o [Squoosh](https://squoosh.app).
 2. Abra `data/products.js` e cole o bloco abaixo **dentro dos colchetes** de `window.DIZZY_PRODUTOS = [ ... ];`:
 
 ```js
 {
   // Obrigatórios
-  id: "nome-do-perfume-100",       // único, sem espaços nem acentos
-  nome: "Nome do Perfume",
-  ml: 100,
-  preco: 299.9,                    // ponto nos centavos; aparece como R$ 299,90
-  imagem: "assets/img/produtos/nome-do-perfume.webp",  // ou "" para "Foto em breve"
+  id: "davidoff-cool-water-75",    // único, sem espaços nem acentos
+  nome: "Cool Water",
+  ml: 75,
+  preco: 200,                      // à vista; ponto nos centavos (199.9 = R$ 199,90)
+  imagem: "assets/img/produtos/davidoff-cool-water.webp",  // ou "" para "Foto em breve"
   emEstoque: true,                 // false = esgotado, com botão "Avise-me"
 
   // Opcionais
-  familia: "Amadeirado aromático",
+  marca: "Davidoff",
+  caracteristicas: ["Fresco", "Aquático", "Aromático"],
+  ocasiao: "Dia",                  // "Dia", "Noite" ou "Dia e noite"
+  familia: "Aromático aquático",
   descricao: "Uma ou duas frases sensoriais sobre o perfume.",
   notas: {
-    topo: ["Bergamota", "Pimenta rosa"],
-    coracao: ["Lavanda", "Gerânio"],
-    fundo: ["Cedro", "Âmbar"]
+    topo: ["Menta", "Lavanda"],
+    coracao: ["Gerânio"],
+    fundo: ["Cedro", "Almíscar"]
   },
-  ocasiao: "Dia a dia e noite",
-  fixacao: "Alta"
+  fixacao: "Moderada"
 },
 ```
 
 3. Salve, faça o commit e envie para o GitHub. A Vercel publica sozinha em cerca de 1 minuto.
 
 O que aparece onde:
-- **Card:** foto, nome, família olfativa, descrição curta, mL, preço, selo "Em estoque"/"Esgotado" e botão "Pedir no WhatsApp".
-- **Detalhe** (ao tocar no card ou em "Ver detalhes"): tudo do card, mais as notas de topo, coração e fundo, a ocasião e a fixação.
+- **Card (catálogo):** foto, marca, nome, características do cheiro e dia/noite (com ícone de sol ou lua). O card inteiro é um botão.
+- **Detalhe** (ao tocar no card): foto, família olfativa, descrição, mL, preço à vista, parcelamento, notas de topo, coração e fundo, fixação e o botão "Pedir no WhatsApp".
 - Campos opcionais vazios ou apagados simplesmente não aparecem.
+
+Parcelamento: o texto "ou em até 10x no cartão (com taxa e juros da maquininha)" vale para todos os perfumes e fica no topo de `data/products.js` (`window.DIZZY_PARCELAMENTO`). Altere ali uma vez só.
+
+Link direto para um perfume: `endereço-do-site/#id-do-perfume` (ex.: `/#davidoff-cool-water-75`) abre o catálogo já com o detalhe aberto, útil para stories e conversas.
 
 Dicas:
 - Separe um perfume do outro com vírgula.
