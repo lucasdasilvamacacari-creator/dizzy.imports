@@ -67,8 +67,10 @@
     return 3;
   }
 
+  // "Davidoff Cool Water"; não repete a marca quando o nome já começa com ela.
   function nomeCompleto(p) {
-    return p.marca ? p.marca + " " + p.nome : p.nome;
+    if (!p.marca || p.nome.toLowerCase().indexOf(p.marca.toLowerCase()) === 0) return p.nome;
+    return p.marca + " " + p.nome;
   }
 
   function nomeComVolume(p) {

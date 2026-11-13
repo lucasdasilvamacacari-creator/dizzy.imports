@@ -140,7 +140,7 @@ window.DIZZY_PRODUTOS = [
   {
     id: "carrera-pour-homme-100",
     marca: "Carrera",
-    nome: "Pour Homme",
+    nome: "Carrera Pour Homme",
     ml: 100,
     preco: 200,
     imagem: "assets/img/produtos/carrera-pour-homme.webp",
@@ -177,5 +177,71 @@ window.DIZZY_PRODUTOS = [
     ocasiao: "Noite",
     familia: "Oriental amadeirado",
     descricao: "Oriental de presença marcante, com especiarias quentes sobre um fundo amadeirado. Intenso e sofisticado."
+  },
+  {
+    id: "paris-royale-so-cantal-100",
+    marca: "Paris Royale",
+    nome: "So Cantal!",
+    ml: 100,
+    preco: 130,
+    imagem: "assets/img/produtos/paris-royale-so-cantal.webp",
+    caracteristicas: ["Doce", "Floral", "Envolvente"],
+    ocasiao: "Noite",
+    familia: "Floral adocicado",
+    descricao: "Feminino doce e floral, com um toque de mel e fundo quente. Irresistível e marcante."
+  },
+  {
+    id: "paris-royale-24-sexydays-100",
+    marca: "Paris Royale",
+    nome: "24 Sexydays",
+    ml: 100,
+    preco: 130,
+    imagem: "assets/img/produtos/paris-royale-24-sexydays.webp",
+    caracteristicas: ["Floral", "Ambarado", "Envolvente"],
+    ocasiao: "Noite",
+    familia: "Floral ambarado",
+    descricao: "Feminino envolvente, com flores sobre um fundo ambarado e sensual."
+  },
+  {
+    id: "azzaro-pour-homme-50",
+    marca: "Azzaro",
+    nome: "Azzaro Pour Homme",
+    ml: 50,
+    preco: 170,
+    imagem: "assets/img/produtos/azzaro-pour-homme.webp",
+    caracteristicas: ["Clássico", "Aromático", "Herbal"],
+    ocasiao: "Dia",
+    familia: "Aromático fougère",
+    descricao: "Um clássico masculino: lavanda e ervas aromáticas sobre um fundo amadeirado e levemente ambarado.",
+    notas: {
+      topo: ["Lavanda", "Anis", "Bergamota", "Limão", "Manjericão"],
+      coracao: ["Cardamomo", "Zimbro", "Patchouli"],
+      fundo: ["Musgo de carvalho", "Vetiver", "Fava tonka", "Couro"]
+    },
+    fixacao: "Moderada"
+  },
+  {
+    id: "rasasi-hawas-tropical-100",
+    marca: "Rasasi",
+    nome: "Hawas Tropical",
+    ml: 100,
+    preco: 260,
+    imagem: "assets/img/produtos/rasasi-hawas-tropical.webp",
+    caracteristicas: ["Fresco", "Frutado", "Tropical"],
+    ocasiao: "Dia",
+    familia: "Frutado aquático",
+    descricao: "Fresco e frutado, com um frescor aquático que lembra o verão. Leve e vibrante."
+  },
+  {
+    id: "lattafa-yara-tous-100",
+    marca: "Lattafa",
+    nome: "Yara Tous",
+    ml: 100,
+    preco: 250,
+    imagem: "assets/img/produtos/lattafa-yara-tous.webp",
+    caracteristicas: ["Doce", "Frutado", "Cremoso"],
+    ocasiao: "Dia e noite",
+    familia: "Frutado gourmand",
+    descricao: "Frutas tropicais cremosas sobre um fundo macio de baunilha. Doce, alegre e irresistível."
   }
 ];
