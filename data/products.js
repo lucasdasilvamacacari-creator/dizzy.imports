@@ -243,5 +243,35 @@ window.DIZZY_PRODUTOS = [
     ocasiao: "Dia e noite",
     familia: "Frutado gourmand",
     descricao: "Frutas tropicais cremosas sobre um fundo macio de baunilha. Doce, alegre e irresistível."
+  },
+  {
+    id: "calvin-klein-ck-be-125",
+    marca: "Calvin Klein",
+    nome: "CK Be",
+    ml: 125,
+    preco: 200,
+    imagem: "assets/img/produtos/calvin-klein-ck-be.webp",
+    caracteristicas: ["Limpo", "Almiscarado", "Aromático"],
+    ocasiao: "Dia",
+    familia: "Aromático almiscarado",
+    descricao: "Limpo e versátil, com lavanda e cítricos sobre um fundo macio de almíscar. Compartilhável e fácil de usar.",
+    notas: {
+      topo: ["Bergamota", "Lavanda", "Menta", "Zimbro", "Tangerina"],
+      coracao: ["Magnólia", "Pêssego"],
+      fundo: ["Almíscar", "Sândalo", "Fava tonka"]
+    },
+    fixacao: "Moderada"
+  },
+  {
+    id: "ferrari-scuderia-black-125",
+    marca: "Ferrari",
+    nome: "Scuderia Ferrari Black",
+    ml: 125,
+    preco: 200,
+    imagem: "assets/img/produtos/ferrari-scuderia-black.webp",
+    caracteristicas: ["Adocicado", "Amadeirado", "Especiado"],
+    ocasiao: "Dia e noite",
+    familia: "Amadeirado especiado",
+    descricao: "Amadeirado e levemente adocicado, com um toque especiado. Moderno e com bastante estilo."
   }
 ];
